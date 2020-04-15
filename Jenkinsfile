@@ -15,7 +15,19 @@ pipeline
       {
         script
         {
-          checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '${RepoBranch}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GitHub_credential', url: 'https://github.com/pankajy1/react-web-app.git']]]
+              cleanWs()
+         checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '${RepoBranch}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/vmgponly/react-web-app.git']]] 
+         sh '''
+         ls -ltr
+         npm install
+         npm run build
+         ls -ltr
+         cd build/
+         ls -ltr
+         tar -cvf frontend-${BUILD_NUMBER}.tar *
+         cd build/
+         '''
+    
         }
       }
     }
